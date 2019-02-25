@@ -1,0 +1,33 @@
+version: 2
+jobs:
+   build:
+     working_directory: ~/build
+     machine: true
+     steps:
+        - checkout
+            
+        - run: 
+            name: "build project"
+            command: mvn clean install -DskipTests
+     
+       
+        
+
+        - run:
+            name: "docker build"
+            command: docker build -f ./Dockerfile -t sandy0204/springboot-example .
+    
+    
+        - run:
+            name: Push to GCloud Image Registry
+            command: |
+              echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+              sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
+              sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+              sudo /opt/google-cloud-sdk/bin/gcloud config set project ${GCLOUD_PROJECT_ID}
+              sudo docker tag $sandy0204/springboot-example gcr.io/${GCLOUD_PROJECT_ID}/$sandy0204/springboot-example:latest
+              sudo /opt/google-cloud-sdk/bin/gcloud docker -- push gcr.io/${GCLOUD_PROJECT_ID}/$sandy0204/springboot-example
+  
+
+
+
