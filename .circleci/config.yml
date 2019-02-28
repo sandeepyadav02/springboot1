@@ -26,6 +26,32 @@ jobs:
               sudo /opt/google-cloud-sdk/bin/gcloud config set project ${GCLOUD_PROJECT_ID}
               sudo docker tag $CIRCLE_PROJECT_REPONAME gcr.io/${GCLOUD_PROJECT_ID}/$CIRCLE_PROJECT_REPONAME:$TAG
               sudo /opt/google-cloud-sdk/bin/gcloud docker -- push gcr.io/${GCLOUD_PROJECT_ID}/$CIRCLE_PROJECT_REPONAME
+   deploy-dev:
+     working_directory: ~/build 
+     machine: true
+     steps: 
+        - 
+          checkout: 
+            path: $CIRCLE_PROJECT_REPONAME
+        - 
+          run: 
+            name: Deploy to Dev
+            command: |
+              echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+              sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
+              sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
+              sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+              sudo /opt/google-cloud-sdk/bin/gcloud config set project ${GCLOUD_PROJECT_ID}
+              sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials $DEV_GCLOUD_CLUSTER_NAME --zone $DEV_GCLOUD_CLUSTER_ZONE
+              sudo chmod 757 /home/circleci/.kube/config -R
+              sudo chown -R $USER /home/circleci/.config
+              
+              #kubectl delete secret integration-service-credentials
+              #kubectl create -f /home/circleci/build/$CIRCLE_PROJECT_REPONAME/kube/dev/secret/$CIRCLE_PROJECT_REPONAME.yml
+              
+              kubectl apply -f /home/circleci/build/$CIRCLE_PROJECT_REPONAME/kube/dev/deployment/$CIRCLE_PROJECT_REPONAME.yml
+              kubectl set image deployment/$CIRCLE_PROJECT_REPONAME springboot1-deploy-image=gcr.io/${GCLOUD_PROJECT_ID}/$CIRCLE_PROJECT_REPONAME:$TAG
+              kubectl rollout status deployment/$CIRCLE_PROJECT_REPONAME
   
    
 
