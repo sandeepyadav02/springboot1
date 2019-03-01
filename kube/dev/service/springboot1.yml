@@ -3,11 +3,11 @@ kind: Service
 metadata: 
   name: springboot-example
   labels:
-    app: springboot-example
+    app: springboot1
 spec:
   ports:
   - protocol: TCP
     port: 80
     targetPort: 8080
   selector:
-    app: springboot-example
+    app: springboot1
