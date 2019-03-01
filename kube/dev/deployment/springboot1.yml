@@ -1,16 +1,16 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: springboot1
+  name: springboot-example	
 spec:
  selector: 
   matchLabels:
-    app: springboot1
+    app: springboot-example
  replicas: 1
  template:
    metadata:
      labels:
-       app: springboot1
+       app: springboot-example
    spec:
      containers:
        - image: gcr.io/adept-strand-231406/springboot1:latest
