@@ -32,7 +32,7 @@ spec:
          name: cloudsql-proxy
          command: ["/cloud_sql_proxy",
                   "-instances=adept-strand-231406:us-central1:cloud-db=tcp:3306",
-                  "-credential_file=/secrets/cloudsql/credentials.json"]
+                  "-credential_file=/secrets/cloudsql/mysql.json"]
 
 
 
