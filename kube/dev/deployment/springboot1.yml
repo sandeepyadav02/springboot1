@@ -5,12 +5,12 @@ metadata:
 spec:
  selector: 
   matchLabels:
-    app: springboot-example
+    app: springboot1
  replicas: 1
  template:
    metadata:
      labels:
-       app: springboot-example
+       app: springboot1
    spec:
      containers:
        - image: gcr.io/adept-strand-231406/springboot1:latest
