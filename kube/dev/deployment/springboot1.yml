@@ -15,24 +15,13 @@ spec:
      containers:
        - image: gcr.io/adept-strand-231406/springboot1:latest
          name: springboot1-deploy-image
-         env:
-           - name: SECRET-USERNAME
-             valueFrom:
-               secretKeyRef:
-                 name: mysecret
-                 key: username
-           - name: SECRET-PASSWORD
-             valueFrom:
-               secretKeyRef:
-                 name: mysecret
-                 key: password
+         
          ports:
            - containerPort: 8080
        - image: gcr.io/cloudsql-docker/gce-proxy:1.11
          name: cloudsql-proxy
          command: ["/cloud_sql_proxy",
-                  "-instances=adept-strand-231406:us-central1:cloud-db=tcp:3306",
-                  "-credential_file=/secrets/cloudsql/credentials.json"]
+                  "-instances=adept-strand-231406:us-central1:cloud-db=tcp:3306"]
 
 
 
