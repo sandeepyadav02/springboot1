@@ -19,8 +19,21 @@ spec:
            - name: SECRET-USERNAME
              valueFrom:
                secretKeyRef:
+                 name: database
+                 key: username
+
+           - name: SECRET-PASSWORD
+             valueFrom:
+               secretKeyRef:
+                 name: databse
+                 key: password
+
+           - name: SECRET-USERNAME
+             valueFrom:
+               secretKeyRef:
                  name: mysecret
                  key: username
+
            - name: SECRET-PASSWORD
              valueFrom:
                secretKeyRef:
