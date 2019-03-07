@@ -45,10 +45,7 @@ jobs:
               sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials $DEV_GCLOUD_CLUSTER_NAME --zone $DEV_GCLOUD_CLUSTER_ZONE 
               sudo chmod 757 /home/circleci/.kube/config -R
               sudo chown -R $USER /home/circleci/.config
-              
-              #kubectl delete secret integration-service-credentials
-              #kubectl create -f /home/circleci/build/$CIRCLE_PROJECT_REPONAME/kube/dev/secret/$CIRCLE_PROJECT_REPONAME.yml
-              
+            
               kubectl apply -f /home/circleci/build/$CIRCLE_PROJECT_REPONAME/kube/dev/deployment/$CIRCLE_PROJECT_REPONAME.yml
               kubectl set image deployment/$CIRCLE_PROJECT_REPONAME springboot1-deploy-image=gcr.io/${GCLOUD_PROJECT_ID}/$CIRCLE_PROJECT_REPONAME:$TAG
              
