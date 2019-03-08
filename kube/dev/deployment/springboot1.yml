@@ -16,7 +16,6 @@ spec:
        - image: gcr.io/adept-strand-231406/springboot1:latest
          name: springboot1-deploy-image
          env:
-          
            - name: SECRET-USERNAME
              valueFrom:
                secretKeyRef:
