@@ -4,7 +4,7 @@ CREATE TABLE `patient` (
   `name` varchar(45) DEFAULT NULL,
   `gender` varchar(45) DEFAULT NULL,
   `surname` varchar(45) DEFAULT NULL,
-  `date` date DEFAULT NULL,
+  `dob` date DEFAULT NULL,
   `updateDateTime` date DEFAULT NULL,
   `createDateTime` date DEFAULT NULL,
   PRIMARY KEY (`id`)
